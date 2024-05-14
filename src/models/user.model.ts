@@ -2,7 +2,7 @@ import { Model, DataTypes, Optional } from "sequelize";
 import sequelize from "../sequelize";
 import { ulid } from "ulid";
 
-interface UserAttributes {
+export interface UserAttributes {
   id: string;
   email: string;
   firstName?: string | null;
@@ -26,7 +26,8 @@ interface UserAttributes {
   deletedAt?: Date | null;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+export interface UserCreationAttributes
+  extends Optional<UserAttributes, "id"> {}
 
 class User
   extends Model<UserAttributes, UserCreationAttributes>
