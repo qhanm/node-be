@@ -7,8 +7,7 @@ const sequelize = new Sequelize({
   dialect: databaseConfig.development.dialect as Dialect,
   username: databaseConfig.development.username,
   password: "",
-  storage: ":memory:",
-  models: [__dirname + "/models"],
+  // models: [__dirname + "/models"],
   port: Number(databaseConfig.development.port),
 });
 

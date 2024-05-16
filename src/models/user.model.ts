@@ -1,6 +1,7 @@
 import { Model, DataTypes, Optional } from "sequelize";
 import sequelize from "../sequelize";
 import { ulid } from "ulid";
+import { USER_STATUS } from "../constants/user.const";
 
 export interface UserAttributes {
   id: string;
@@ -19,7 +20,6 @@ export interface UserAttributes {
   dob?: Date | null;
   country?: string | null;
   gender?: string | null;
-  skill?: string | null;
   meta?: object | null;
   createdAt?: Date;
   updatedAt?: Date;
@@ -49,7 +49,6 @@ class User
   public dob?: Date | null;
   public country?: string | null;
   public gender?: string | null;
-  public skill?: string | null;
   public meta?: object | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -110,8 +109,9 @@ User.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.ENUM(...Object.values(USER_STATUS)),
       allowNull: false,
+      defaultValue: USER_STATUS.NOT_VERIFY,
     },
     dob: {
       type: DataTypes.DATE,
@@ -125,10 +125,7 @@ User.init(
       type: DataTypes.STRING(20),
       allowNull: true,
     },
-    skill: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
+
     meta: {
       type: DataTypes.JSON,
       allowNull: true,
@@ -151,7 +148,7 @@ User.init(
   {
     sequelize,
     modelName: "User",
-    tableName: "Users",
+    tableName: "user",
     paranoid: true,
     timestamps: true,
   }

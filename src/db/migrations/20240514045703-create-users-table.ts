@@ -1,6 +1,7 @@
-import { QueryInterface, DataTypes } from "sequelize";
+import { QueryInterface, DataTypes, Sequelize } from "sequelize";
 import { ulid } from "ulid";
 import timestamps from "../../utils/timestamps";
+import { USER_STATUS } from "../../constants/user.const";
 
 module.exports = {
   up: async (queryInterface: QueryInterface) => {
@@ -57,8 +58,12 @@ module.exports = {
         type: DataTypes.STRING(60),
       },
       status: {
+        type: DataTypes.ENUM(
+          USER_STATUS.ACTIVE,
+          USER_STATUS.INACTIVE,
+          USER_STATUS.NOT_VERIFY
+        ),
         allowNull: false,
-        type: DataTypes.STRING(20),
       },
       dob: {
         allowNull: true,
@@ -71,10 +76,6 @@ module.exports = {
       gender: {
         allowNull: true,
         type: DataTypes.STRING(20),
-      },
-      skill: {
-        allowNull: true,
-        type: DataTypes.TEXT,
       },
       meta: {
         allowNull: true,

@@ -1,6 +1,6 @@
 import { Express } from "express";
 
-import UserRouter from "./user.router";
+import UserRouter from "./user";
 
 const routes = (app: Express) => {
   app.use("/api/users", UserRouter);
