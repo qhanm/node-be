@@ -1,9 +1,0 @@
-const path = require("path");
-
-module.exports = {
-  env: process.env.NODE_ENV || "development",
-  config: path.resolve("src", "configs", "db.config.js"), // Chỉ định file JavaScript
-  "migrations-path": path.resolve("src/db", "migrations"),
-  "models-path": path.resolve("src", "models"),
-  "seeders-path": path.resolve("src/db", "seeders"),
-};

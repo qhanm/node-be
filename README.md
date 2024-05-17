@@ -12,4 +12,6 @@
 
 # Migrate DB
 
-`npx sequelize-cli db:migrate`
+```
+typeorm migration:create src/migration/User
+```

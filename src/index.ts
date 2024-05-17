@@ -1,23 +1,32 @@
-import bodyParser from "body-parser";
-import express, { Express } from "express";
-import routes from "./routers";
-import dotenv from "dotenv";
+import "reflect-metadata";
+import express from "express";
+import AppDataSource from "./configs/data-source";
+import { UserController } from "./controllers/UserController";
+import { container } from "./container";
+import {
+  useContainer as routingUseContainer,
+  useExpressServer,
+} from "routing-controllers";
 
-// Config dotenv
-dotenv.config();
+const app = express();
+const port = 3001;
 
-// import sequelize from "./sequelize";
+app.use(express.json());
 
-// sequelize.addModels([__dirname + "/**/*.model.ts"]);
+AppDataSource.initialize()
+  .then(() => {
+    const app = express();
+    const port = 3001;
 
-const app: Express = express();
-const port = process.env.PORT;
+    useExpressServer(app, {
+      routePrefix: "/api",
+      controllers: [__dirname + "/controllers/*.ts"],
+    });
 
-app.use(bodyParser.json());
-
-// ** Config routers
-routes(app);
-
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+    app.listen(port, () => {
+      console.log("Server started on port 3000");
+    });
+  })
+  .catch((error) =>
+    console.log("Error during Data Source initialization:", error)
+  );
