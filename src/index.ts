@@ -1,32 +1,22 @@
 import "reflect-metadata";
-import express from "express";
-import AppDataSource from "./configs/data-source";
-import { UserController } from "./controllers/UserController";
-import { container } from "./container";
-import {
-  useContainer as routingUseContainer,
-  useExpressServer,
-} from "routing-controllers";
 
-const app = express();
-const port = 3001;
-
-app.use(express.json());
+import express, { Express } from "express";
+import { AppDataSource } from "./data-source";
+import { createExpressServer } from "routing-controllers";
+import { error } from "console";
+import { UserController } from "./controller/user.controller";
 
 AppDataSource.initialize()
   .then(() => {
-    const app = express();
-    const port = 3001;
-
-    useExpressServer(app, {
-      routePrefix: "/api",
-      controllers: [__dirname + "/controllers/*.ts"],
+    const app = createExpressServer({
+      controllers: [UserController],
     });
 
+    const port = process.env.PORT || 3000;
     app.listen(port, () => {
-      console.log("Server started on port 3000");
+      console.log(`[Server] is running with port ${port}`);
     });
   })
-  .catch((error) =>
-    console.log("Error during Data Source initialization:", error)
-  );
+  .catch((error) => {
+    console.log(error);
+  });
